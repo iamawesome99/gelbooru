@@ -8,6 +8,11 @@ def download_image(url: str) -> Image:
 
 
 class XMLClass:
+    BASE_URL = "http://gelbooru.com"
+
+    def __init__(self, **kwargs):
+        raise NotImplementedError
+
     @classmethod
     def from_id(cls, id: int):
         return cls(
@@ -15,8 +20,10 @@ class XMLClass:
         )
 
     @classmethod
-    def from_list(cls, xml: str):
+    def from_list(cls, xml: str, get_count=False):
         root = ET.fromstring(xml)
+        if not get_count:
+            return [cls(**x.attrib) for x in root]
         return [cls(**x.attrib) for x in root], root.attrib["count"]
 
     @classmethod

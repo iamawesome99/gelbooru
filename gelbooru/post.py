@@ -1,14 +1,9 @@
-from enum import Enum
+from typing import Union
 from datetime import datetime, timezone
-
+from gelbooru.enums import PostRating
+from gelbooru.tagquery import Options, Query, Term, AllowedTerms
 from gelbooru.base import XMLClass, download_image
 from PIL import Image
-
-
-class PostRating(Enum):
-    safe = "s"
-    questionable = "q"
-    explicit = "e"
 
 
 class Post(XMLClass):
@@ -50,5 +45,6 @@ class Post(XMLClass):
         return download_image(self.preview_url)
 
     @classmethod
-    def search_tags(cls, *args, **kwargs):
-        return cls.search(tags=" ".join(args), **kwargs)
+    def search_tags(cls, query: Union[Options, Query, Term, AllowedTerms, str], **kwargs):
+        print(str(query))
+        return cls.search(tags=str(query), **kwargs)

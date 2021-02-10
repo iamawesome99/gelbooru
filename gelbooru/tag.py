@@ -1,15 +1,6 @@
-from enum import Enum
+from gelbooru.enums import TagType
 from gelbooru.base import XMLClass
 
-
-class TagType(Enum):
-    general = 0
-    artist = 1
-    # 2 seems to be unused
-    copyright = 3
-    character = 4
-    meta = 5
-    depreciated = 6
 
 
 class Tag(XMLClass):
@@ -22,5 +13,13 @@ class Tag(XMLClass):
         self.name = kwargs['name']
         self.ambiguous = bool(kwargs['ambiguous'])
         self.id = int(kwargs['id'])
+
+    @classmethod
+    def from_name(cls, name):
+        return cls.search(name=name)[0]
+
+    def __str__(self):
+        return self.name
+
 
 
